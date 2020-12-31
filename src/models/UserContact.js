@@ -1,53 +1,36 @@
 export default class UserContact {
-
-  id
-
+  properties
   /**
    * Class represent contact instance
    * @param data {{id: (Number|undefined), name: String, surname: String, phone: String, email: String}}
    */
   constructor(data) {
-    this.data = data
-    this.id = this.data.id;
-  }
-
-  set id(id) {
-    if (isNaN(id) || id < 1) {
-      throw new Error('Illegal id for contact');
+    this.properties = new Map();
+    for (const [key, value] of Object.entries(data)) {
+      this.properties.set(key, value);
     }
-    this.id = id;
+    return new Proxy(this, this);
   }
 
-  get id() {
-    return this.id;
+  get (target, prop) {
+    return target.properties.get(prop) || target[prop];
   }
 
-  get name() {
-    return this.data.name;
-  }
-
-  get surname() {
-    return this.data.surname;
-  }
-
-  get phone() {
-    return this.data.phone;
-  }
-
-  get email() {
-    return this.data.email;
+  set (target, prop, value) {
+    target.properties.set(prop, value);
+    return true;
   }
 
   get fullName() {
-    return `${this.data.name} ${this.data.surname}`;
+    return `${this.properties.get('name')} ${this.properties.get('surname')}`;
   }
 
   // just js object
   get object() {
-    console.log('town');
-    return {
-      ...this.data,
-      id: this.id
+    let obj = Object.create(null);
+    for (let [k,v] of this.properties) {
+      obj[k] = v;
     }
+    return obj;
   }
 }

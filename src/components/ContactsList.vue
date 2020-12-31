@@ -15,31 +15,36 @@
                v-on:delete-contact="deleteContact" />
     </div>
     <!--  pass parameters [btn-type, btn-form] for control form submit event  -->
-    <AddContactModal v-if="showModal" header="Add new contact" btn-type="submit" btn-form="adding"
+    <ModalWindow v-if="showModal" header="Add new contact" btn-type="submit" btn-form="adding"
                      v-on:close-window="showModal = false" :blocking="blockModal">
       <AddContactForm form-id="adding" v-on:add-contact="addContact" />
-    </AddContactModal>
+    </ModalWindow>
+    <ModalWindow v-if="confirmAction !== null" :header="confirmHeader" v-on:accept-window="confirmModal"
+                 v-on:close-window="closeModal" />
   </div>
 </template>
 
 <script>
 import Contact from "@/components/Contact";
-import AddContactModal from "@/components/ModalWindow";
 import AddContactForm from "@/components/AddContactForm";
 import {asyncClearAll, asyncDeleteData, asyncLoadData, asyncSave} from "@/utils";
 import UserContact from "@/models/UserContact";
+import ModalWindow from "@/components/ModalWindow";
 
 const KEY = "contacts";
 
 export default {
   name: "ContactsList",
-  components: {AddContactForm, AddContactModal, Contact},
+  components: {ModalWindow, AddContactForm, Contact},
   data: () => ({
     contacts: [],
     showModal: false,
     btnActive: true,
     loading: true,
     blockModal: false,
+    confirmAction: null,
+    confirmCloseAction: null,
+    confirmHeader: ''
   }),
   mounted() {
     asyncLoadData(KEY)
@@ -52,22 +57,49 @@ export default {
       this.blockModal = true;
       asyncSave(KEY, contact)
           .then(data => this.contacts.push(data))
-          .catch(e => console.log(e)) // maybe show notify :)
           .finally(() => this.showModal = this.blockModal = false);
     },
-    deleteContact(id, wait) {
+    deleteContact(id, end) {
       if (!this.btnActive) return; // maybe deleting all is active
-      wait(true);
-      asyncDeleteData(KEY, id)
+      this.confirmHeader = 'You want to delete this contact?';
+      this.confirmCloseAction = () => end();
+      this.confirmAction = () => asyncDeleteData(KEY, id)
         .then(id => this.contacts = this.contacts.filter(item => item.id !== id))
-        .catch(message => console.log(message))
-        .finally(() => wait(false));
+        .finally(() => end());
     },
     clearAll() {
       this.btnActive = false;
-      asyncClearAll()
+      this.confirmHeader = 'You want to clear all contacts?';
+      this.confirmCloseAction = () => this.btnActive = true;
+      this.confirmAction = () => asyncClearAll()
         .then(() => this.contacts = [])
         .finally(() => this.btnActive = true);
+    },
+    /**
+     * Click accept in ModalWindow
+     */
+    confirmModal() {
+      if (this.confirmAction) {
+        this.confirmAction();
+        this.resetModalActions();
+      }
+    },
+    /**
+     * Click close in ModalWindow
+     */
+    closeModal() {
+      if (this.confirmCloseAction) {
+        this.confirmCloseAction();
+      }
+      this.resetModalActions();
+    },
+    /**
+     * Reset all variables used by modal window
+     */
+    resetModalActions() {
+      this.confirmCloseAction = null;
+      this.confirmAction = null;
+      this.confirmHeader = '';
     },
   }
 }

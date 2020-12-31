@@ -1,20 +1,20 @@
 <template>
   <form method="post" @submit.prevent="onSubmit" v-bind:id="formId">
-    <AddContactFormControl v-model="name" :validator="validateNameInput" label="Name" />
-    <AddContactFormControl v-model="surname" :validator="validateNameInput" label="Surname" />
-    <AddContactFormControl v-model="phone" :validator="validatePhoneInput" label="Phone" />
-    <AddContactFormControl v-model="email" :validator="validateEmailInput" label="Email" />
+    <InputFormControl v-model="name" :validator="validateNameInput" label="Name" />
+    <InputFormControl v-model="surname" :validator="validateNameInput" label="Surname" />
+    <InputFormControl v-model="phone" :validator="validatePhoneInput" label="Phone" />
+    <InputFormControl v-model="email" :validator="validateEmailInput" label="Email" />
   </form>
 </template>
 
 <script>
 import UserContact from "@/models/UserContact";
-import AddContactFormControl from "@/components/AddContactFormControl";
+import InputFormControl from "@/components/InputFormControl";
 import {validatePhone, validateName, validateEmail} from "@/validators";
 
 export default {
   name: "AddContactForm",
-  components: {AddContactFormControl},
+  components: {InputFormControl},
   data: () => ({
     name: '',
     surname: '',

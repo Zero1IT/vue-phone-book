@@ -1,9 +1,22 @@
-.contacts-list {
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:active {
+    color: inherit;
+}
+
+a:visited {
+    color: inherit;
+}
+
+.contacts-list, .user-property-list {
     max-width: 600px;
     margin: 50px auto;
 }
 
-.contact {
+.contact, .user-property {
     display: flex;
     background-color: #9d0191;
     margin: 10px 0;
@@ -19,30 +32,13 @@
 }
 
 .contact .contact-name {
-    flex-grow: 6;
+    flex-grow: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 0 5px;
 }
 
-.contact .contact-delete {
-    align-self: flex-end;
-}
-
-.contact-delete>button {
-    border-radius: 50%;
-    cursor: pointer;
-    padding: 4px 8px;
-    outline: none;
-}
-
-.contact-delete>button::before {
-    content: 'X';
-    color: #fff;
-    font-weight: 300;
-    font-family: Arial, sans-serif;
-}
 
 .form-control {
     margin: 5px 0;
@@ -132,7 +128,7 @@
 
 .lds-ripple div {
     position: absolute;
-    border: 2px solid #fff;
+    border: 2px solid #a72222;
     opacity: 1;
     border-radius: 50%;
     animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;

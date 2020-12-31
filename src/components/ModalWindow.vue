@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: "AddContactModal",
+  name: "ModalWindow",
   props: {
     header: {
       type: String,
@@ -58,6 +58,10 @@ export default {
     background: #ebebeb;
     border-radius: 12px;
     z-index: 999;
+  }
+
+  .modal-header {
+    padding: 10px;
   }
 
   .modal-content {

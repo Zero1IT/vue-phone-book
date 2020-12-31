@@ -1,18 +1,8 @@
 <template>
   <div id="app">
-    <ContactsList />
+    <router-view />
   </div>
 </template>
-
-<script>
-import ContactsList from "@/components/ContactsList";
-export default {
-  name: 'App',
-  components: {
-    ContactsList
-  }
-}
-</script>
 
 <style>
 @import "./assets/styles/all.css";

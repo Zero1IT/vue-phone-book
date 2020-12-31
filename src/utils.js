@@ -34,6 +34,17 @@ function asyncLoadData(key) {
 }
 
 /**
+ * Fake async get by id
+ */
+function asyncGetData(key, id) {
+  return new Promise((res) => {
+    setTimeout(() => {
+      res((JSON.parse(localStorage.getItem(key)) || []).find(it => it.id === id));
+    }, 1000);
+  });
+}
+
+/**
  * Fake async delete data
  */
 function asyncDeleteData(key, id) {
@@ -64,9 +75,30 @@ function asyncClearAll() {
   });
 }
 
+/**
+ * Fake async update
+ */
+function asyncUpdate(key, item) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      const data = JSON.parse(localStorage.getItem(key)) || [];
+      const index = data.findIndex(it => it.id === item.id);
+      if (index === -1) {
+        rej(`Invalid item with id ${item.id}`);
+      } else {
+        data[index] = item.object;
+        localStorage.setItem(key, JSON.stringify(data));
+        res(item);
+      }
+    }, 500);
+  });
+}
+
 export {
   asyncSave,
   asyncClearAll,
   asyncLoadData,
-  asyncDeleteData
+  asyncDeleteData,
+  asyncGetData,
+  asyncUpdate,
 }
