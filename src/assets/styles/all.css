@@ -13,7 +13,7 @@ a:visited {
 
 .contacts-list, .user-property-list {
     max-width: 600px;
-    margin: 50px auto;
+    margin: 0 auto;
 }
 
 .contact, .user-property {
@@ -194,4 +194,43 @@ a:visited {
     100% {
         transform: rotate(360deg);
     }
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.history-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editable-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 400px;
+}
+
+.undo, .redo {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    margin: 10px;
+}
+.unused {
+    opacity: 0.2;
+}
+.undo {
+    background: url("../undo-solid.svg");
+}
+
+.redo {
+    background: url("../redo-solid.svg");
 }
