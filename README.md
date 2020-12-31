@@ -1,5 +1,15 @@
 # phone-book
 
+## DOCKER CREATE IMAGE
+```
+docker build -t vue-app .
+```
+
+## DOCKER RUN
+```
+docker run --rm --name vue-task -p 8080:8080 vue-app
+```
+
 ## Project setup
 ```
 yarn install
