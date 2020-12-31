@@ -14,6 +14,6 @@ export default new Router({
     {
       path: '/contact/:id',
       component: () => import('./components/ContactInfo.vue'),
-    },
+    }
   ]
 })
