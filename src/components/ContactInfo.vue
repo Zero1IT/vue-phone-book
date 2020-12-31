@@ -191,12 +191,23 @@ export default {
       }
       this.confirmCloseAction = end;
     },
+    /**
+     * Handle undo click
+     */
     undoAction() {
       this.historyPop();
     },
+
+    /**
+     * Handle redo click
+     */
     redoAction() {
       this.historyStepForward();
     },
+
+    /**
+     * Persist after undo\redo
+     */
     persistState() {
       this.confirmHeader = 'Do you want save current state?';
       this.confirmAction = () => {
@@ -204,6 +215,10 @@ export default {
             .then(current => this.replaceState(current));
       }
     },
+
+    /**
+     * Show modal window for user, when editing is closed
+     */
     closeEdit(close) {
       this.confirmHeader = 'You want to cancel editing?';
       this.confirmAction = close;
